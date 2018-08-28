@@ -19,10 +19,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Windows.Networking;
-using Windows.Networking.Sockets;
+using System.Net.Sockets;
 using System.Runtime.InteropServices.WindowsRuntime;
-using Windows.Storage.Streams;
 using System.Threading;
 
 namespace uPLibrary.Networking.M2Mqtt
