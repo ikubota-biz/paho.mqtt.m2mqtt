@@ -1157,7 +1157,7 @@ namespace uPLibrary.Networking.M2Mqtt
 
         private void OnEvent(Object Sender, EventArgs Ea, Events.Events.Options EventType)
         {
-            if (this.Disconnected != null)
+            if (this.Event != null)
             {
 
                 var args = new GenericEventArgs(EventType, Ea);
