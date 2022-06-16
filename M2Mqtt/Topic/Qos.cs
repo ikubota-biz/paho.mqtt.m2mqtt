@@ -20,7 +20,7 @@ namespace uPLibrary.Networking.M2Mqtt.Topic
 
             switch(this.qos){
                 case Options.AT_LEAST_ONCE:
-                    t = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE;
+                    t = MqttMsgBase.QOS_LEVEL_AT_LEAST_ONCE;
                     break;
                 case Options.AT_MOST_ONCE:
                     t = MqttMsgBase.QOS_LEVEL_AT_MOST_ONCE;
