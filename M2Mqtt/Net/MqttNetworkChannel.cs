@@ -227,7 +227,20 @@ namespace uPLibrary.Networking.M2Mqtt
             this.socket = new Socket(this.remoteIpAddress.GetAddressFamily(), SocketType.Stream, ProtocolType.Tcp);
             
             // try connection to the broker
-            this.socket.Connect(new IPEndPoint(this.remoteIpAddress, this.remotePort));
+//            this.socket.Connect(new IPEndPoint(this.remoteIpAddress, this.remotePort));
+
+            var asyncResult=this.socket.BeginConnect(new IPEndPoint(this.remoteIpAddress, this.remotePort),null, this.socket);
+            var waitResult=asyncResult.AsyncWaitHandle.WaitOne(MqttSettings.MQTT_CONNECT_TIMEOUT);//Connect Timeout is acording to settings
+            if (waitResult == false)
+            {
+                //socket connect timeout
+                throw new SocketException((int)SocketError.TimedOut);
+
+            }
+            if (this.socket.Connected == false)
+            {
+                throw new Exception("socket.connect failed");
+            }
 
 #if SSL
             // secure channel requested
@@ -240,6 +253,8 @@ namespace uPLibrary.Networking.M2Mqtt
                 this.netStream = new NetworkStream(this.socket);
                 this.sslStream = new SslStream(this.netStream, false, this.userCertificateValidationCallback, this.userCertificateSelectionCallback);
 #endif
+                this.sslStream.ReadTimeout = MqttSettings.MQTT_CONNECT_TIMEOUT;
+                this.sslStream.WriteTimeout = MqttSettings.MQTT_CONNECT_TIMEOUT;
 
                 // server authentication (SSL/TLS handshake)
 #if (MF_FRAMEWORK_VERSION_V4_2 || MF_FRAMEWORK_VERSION_V4_3)

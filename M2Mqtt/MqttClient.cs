@@ -1799,7 +1799,7 @@ namespace uPLibrary.Networking.M2Mqtt
                         // wake up thread that will notify connection is closing
                         this.OnConnectionClosing();
                     }
-                    throw new Exception("Unexpected Exception", e);
+                    throw new Exception("Unexpected Exception:"+e.ToString(), e);
                 }
             }
         }
