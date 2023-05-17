@@ -253,6 +253,8 @@ namespace uPLibrary.Networking.M2Mqtt
                 this.netStream = new NetworkStream(this.socket);
                 this.sslStream = new SslStream(this.netStream, false, this.userCertificateValidationCallback, this.userCertificateSelectionCallback);
 #endif
+                var orgReadTimeout=this.sslStream.ReadTimeout;
+                var orgWriteTimeout=this.sslStream.WriteTimeout;
                 this.sslStream.ReadTimeout = MqttSettings.MQTT_CONNECT_TIMEOUT;
                 this.sslStream.WriteTimeout = MqttSettings.MQTT_CONNECT_TIMEOUT;
 
@@ -273,8 +275,10 @@ namespace uPLibrary.Networking.M2Mqtt
                     clientCertificates,
                     MqttSslUtility.ToSslPlatformEnum(this.sslProtocol),
                     false);
-                
+
 #endif
+                this.sslStream.ReadTimeout = orgReadTimeout;
+                this.sslStream.WriteTimeout = orgWriteTimeout;
             }
 #endif
         }
